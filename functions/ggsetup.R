@@ -1,9 +1,12 @@
-# ploting function for anomaly plots
-# Taken from: file:///C:/Users/CCONE/Documents/R/win-library/3.6/anomalize/doc/anomalize_methods.html
-
+# Ploting function for anomaly observations
+#Taken from: https://business-science.github.io/anomalize/articles/anomalize_methods.html
 
 
 ggsetup <- function(data) {
+  
+  #Scale y axis
+  y_axis <- max(abs(data$value)) + mean(abs(data$value))
+  
   data %>%
     ggplot(aes(rank, value, color = outlier)) +
     geom_point() +
@@ -12,6 +15,6 @@ ggsetup <- function(data) {
     geom_text(aes(label = index), vjust = -1.25) +
     theme_bw() +
     scale_color_manual(values = c("No" = "#2c3e50", "Yes" = "#e31a1c")) +
-    expand_limits(y = 13) +
+    ylim(- y_axis, y_axis) +
     theme(legend.position = "bottom")
 }
